@@ -94,8 +94,20 @@ public class FlutterACPCorePlugin implements FlutterPlugin, MethodCallHandler {
         } else if ("updateConfiguration".equals(call.method)) {
             handleUpdateConfiguration(call.arguments);
             result.success(null);
+        } else if ("setPushIdentifier".equals(call.method)) {
+            handleSetPushIdentifier(call.arguments);
         } else {
             result.notImplemented();
+        }
+    }
+
+    private void handleSetPushIdentifier(final Object arguments) {
+        if (arguments == null) {
+            MobileCore.setPushIdentifier(null);
+        }
+
+        if (arguments instanceof String) {
+            MobileCore.setPushIdentifier((String) arguments);
         }
     }
 
