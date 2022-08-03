@@ -63,6 +63,10 @@ governing permissions and limitations under the License.
     } else if ([@"setPrivacyStatus" isEqualToString:call.method]) {
         [ACPCore setPrivacyStatus:[FlutterACPCoreDataBridge privacyStatusFromString:call.arguments]];
         result(nil);
+    } else if ([@"setPushIdentifier" isEqualToString:call.method]) {
+        NSString *aid = call.arguments;
+        [ACPCore setPushIdentifier:aid];
+        result(nil);        
     } else {
         result(FlutterMethodNotImplemented);
     }
