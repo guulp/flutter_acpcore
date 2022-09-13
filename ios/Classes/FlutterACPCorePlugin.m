@@ -64,12 +64,24 @@ governing permissions and limitations under the License.
         [ACPCore setPrivacyStatus:[FlutterACPCoreDataBridge privacyStatusFromString:call.arguments]];
         result(nil);
     } else if ([@"setPushIdentifier" isEqualToString:call.method]) {
-        NSString *aid = call.arguments;
-        [ACPCore setPushIdentifier:aid];
-        result(nil);        
+        [self handleSetPushIdentifier:call];
+        result(nil);
+    } else if ([@"collectPii" isEqualToString:call.method]) {
+        [self handleCollectPii:call];
+        result(nil);
     } else {
         result(FlutterMethodNotImplemented);
     }
+}
+
+- (void)handleSetPushIdentifier:(FlutterMethodCall *) call {
+    NSData *pushIdentifier = [call.arguments dataUsingEncoding:NSUTF8StringEncoding];
+    [ACPCore setPushIdentifier:pushIdentifier];
+}
+
+- (void)handleCollectPii:(FlutterMethodCall *) call {
+    NSDictionary *dict = (NSDictionary *) call.arguments;
+    [ACPCore collectPii: dict];
 }
 
 - (void)handleTrackCall:(FlutterMethodCall *) call {

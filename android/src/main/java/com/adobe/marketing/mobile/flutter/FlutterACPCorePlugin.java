@@ -96,6 +96,10 @@ public class FlutterACPCorePlugin implements FlutterPlugin, MethodCallHandler {
             result.success(null);
         } else if ("setPushIdentifier".equals(call.method)) {
             handleSetPushIdentifier(call.arguments);
+            result.success(null);
+        } else if ("collectPii".equals(call.method)) {
+            handleCollectPii(call.arguments);
+            result.success(null);
         } else {
             result.notImplemented();
         }
@@ -110,6 +114,16 @@ public class FlutterACPCorePlugin implements FlutterPlugin, MethodCallHandler {
             MobileCore.setPushIdentifier((String) arguments);
         }
     }
+
+    private void handleCollectPii(final Object arguments) {
+        if (!(arguments instanceof Map)) {
+            Log.e(TAG, "CollectPii failed, arguments are invalid");
+            return;
+        }
+
+        Map params = (Map) arguments;
+        MobileCore.collectPii(params);
+    }    
 
     private void handleTrackCall(Object arguments) {
         if (!(arguments instanceof Map) || !((Map) arguments).containsKey("type") || !((Map) arguments).containsKey("name")) {

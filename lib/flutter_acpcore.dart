@@ -54,8 +54,13 @@ class FlutterACPCore {
   /// Submits a generic event containing the provided IDFA with event type `generic.identity`.
   static Future<void> setAdvertisingIdentifier(String aid) => _channel.invokeMethod<void>('setAdvertisingIdentifier', aid);
 
-  /// Sets the fcm token as the push identifier
+  /// Sets the FCM/APNS token as the push identifier
   static Future<void> setPushIdentifier(String token) => _channel.invokeMethod<void>('setPushIdentifier', token);
+
+  /// Submits a generic PII collection request event with type `generic.pii`.
+  ///
+  /// @param {Map<String, String>} a map containing the PII data
+  static Future<void> collectPii(Map<String, String> data) => _channel.invokeMethod('collectPii', data);
 
   ///  Called by the extension public API to dispatch an event for other extensions or the internal SDK to consume. Any events dispatched by this call will not be processed until after `start` has been called.
   static Future<bool> dispatchEvent(ACPExtensionEvent event) => _channel.invokeMethod<bool>('dispatchEvent', event.data).then((value) => value!);
